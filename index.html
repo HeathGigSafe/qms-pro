@@ -339,32 +339,81 @@ select.form-ctrl:focus,input.form-ctrl:focus,textarea.form-ctrl:focus{outline:no
 let db = { contractors: [], courses: [] };
 
 function loadDB() {
-  const s = localStorage.getItem('qms_v1');
+  const s = localStorage.getItem('qms_v2');
   if (s) { db = JSON.parse(s); } else { seedDB(); }
 }
-function saveDB() { localStorage.setItem('qms_v1', JSON.stringify(db)); }
+function saveDB() { localStorage.setItem('qms_v2', JSON.stringify(db)); }
 
 function seedDB() {
   db.courses = [
-    {id:'c1',name:'Defensive Driving',category:'Safety',duration:'4 hrs',desc:'Safe driving techniques for independent contractors.'},
-    {id:'c2',name:'Vehicle Inspection Basics',category:'Technical',duration:'2 hrs',desc:'Pre-trip and post-trip inspection procedures.'},
-    {id:'c3',name:'Customer Service Excellence',category:'Customer Service',duration:'3 hrs',desc:'Best practices for client interactions and delivery etiquette.'},
-    {id:'c4',name:'Hazmat Handling Level 1',category:'Compliance',duration:'8 hrs',desc:'Safe handling and transport of hazardous materials.'},
-    {id:'c5',name:'First Aid & CPR',category:'Safety',duration:'6 hrs',desc:'Emergency response and first aid certification.'},
-    {id:'c6',name:'GPS & Route Optimization',category:'Technical',duration:'2 hrs',desc:'Using navigation tools for efficient routing.'},
-    {id:'c7',name:'Workplace Safety Fundamentals',category:'Safety',duration:'4 hrs',desc:'OSHA-compliant workplace safety training.'},
-    {id:'c8',name:'Privacy & Data Compliance',category:'Compliance',duration:'2 hrs',desc:'Handling customer data in line with privacy regulations.'},
+    {id:'c1', name:'Defensive Driving',           category:'Safety',           duration:'4 hrs', desc:'Safe driving techniques for independent contractors.'},
+    {id:'c2', name:'Vehicle Inspection Basics',   category:'Technical',        duration:'2 hrs', desc:'Pre-trip and post-trip inspection procedures.'},
+    {id:'c3', name:'Customer Service Excellence', category:'Customer Service', duration:'3 hrs', desc:'Best practices for client interactions and delivery etiquette.'},
+    {id:'c4', name:'Hazmat Handling Level 1',     category:'Compliance',       duration:'8 hrs', desc:'Safe handling and transport of hazardous materials.'},
+    {id:'c5', name:'First Aid & CPR',             category:'Safety',           duration:'6 hrs', desc:'Emergency response and first aid certification.'},
+    {id:'c6', name:'GPS & Route Optimization',    category:'Technical',        duration:'2 hrs', desc:'Using navigation tools for efficient routing.'},
+    {id:'c7', name:'Workplace Safety Fundamentals',category:'Safety',          duration:'4 hrs', desc:'OSHA-compliant workplace safety training.'},
+    {id:'c8', name:'Privacy & Data Compliance',   category:'Compliance',       duration:'2 hrs', desc:'Handling customer data in line with privacy regulations.'},
+    {id:'c9', name:'Defensive Cycling & Road Awareness', category:'Safety',    duration:'3 hrs', desc:'Bicycle and motorcycle hazard awareness training.'},
+    {id:'c10',name:'Independent Contractor Tax Basics', category:'General',    duration:'2 hrs', desc:'1099 tax filing, deductions, and recordkeeping fundamentals.'},
   ];
-  db.contractors = [
-    {id:'ct1',name:'James Roper',loc:'Austin, TX',veh:'Truck',status:'Active',email:'james.roper@email.com',phone:'(512) 555-0101',inv:['c1','c2','c3','c5'],done:['c1','c2']},
-    {id:'ct2',name:'Maria Santiago',loc:'Miami, FL',veh:'Van',status:'Active',email:'maria.s@email.com',phone:'(305) 555-0202',inv:['c1','c3','c4','c6','c7'],done:['c1','c3','c6','c7']},
-    {id:'ct3',name:'Derek Finn',loc:'Chicago, IL',veh:'SUV',status:'Active',email:'dfinn@email.com',phone:'(312) 555-0303',inv:['c2','c5','c8'],done:['c5']},
-    {id:'ct4',name:'Angela Brooks',loc:'New York, NY',veh:'Sedan',status:'Pending',email:'abrooks@email.com',phone:'(212) 555-0404',inv:['c1','c3'],done:[]},
-    {id:'ct5',name:'Tom Nakamura',loc:'Seattle, WA',veh:'Electric Vehicle',status:'Active',email:'tom.n@email.com',phone:'(206) 555-0505',inv:['c1','c2','c6','c7','c8'],done:['c1','c2','c6','c7','c8']},
-    {id:'ct6',name:'Rachel Okafor',loc:'Houston, TX',veh:'Motorcycle',status:'Inactive',email:'r.okafor@email.com',phone:'(713) 555-0606',inv:['c1','c4'],done:['c1']},
-    {id:'ct7',name:'Luis Mendez',loc:'Phoenix, AZ',veh:'Truck',status:'Active',email:'l.mendez@email.com',phone:'(602) 555-0707',inv:['c2','c3','c4','c5','c6'],done:['c2','c3']},
-    {id:'ct8',name:'Sophie Larkin',loc:'Portland, OR',veh:'Bicycle',status:'Active',email:'s.larkin@email.com',phone:'(503) 555-0808',inv:['c1','c3','c8'],done:['c1','c3','c8']},
+
+  // ── Generate 50 contractors ─────────────────────────────────────────────────
+  const firstNames = ['James','Maria','Derek','Angela','Tom','Rachel','Luis','Sophie','Marcus','Priya','Jordan','Aisha','Ethan','Olivia','Carlos','Naomi','Brandon','Yuki','Kevin','Isabella','Jamal','Lena','Diego','Hannah','Trevor','Fatima','Connor','Gabriela','Owen','Nadia','Riley','Tariq','Sienna','Devon','Mei','Caleb','Zara','Bryce','Camila','Nolan','Anya','Felix','Imani','Quentin','Lila','Theo','Esme','Reggie','Vivian','Dax'];
+  const lastNames  = ['Roper','Santiago','Finn','Brooks','Nakamura','Okafor','Mendez','Larkin','Hayes','Patel','Whitman','Khan','Cole','Donovan','Reyes','Tanaka','Walsh','Sato','Park','Romero','Bennett','Kowalski','Vargas','Bishop','Stewart','Hassan','Sullivan','Marquez','Gallagher','Petrov','Jensen','Ahmed','Russo','Carter','Lin','Murphy','Abadi','Holmes','Diaz','Beck','Volkov','Nguyen','Adeyemi','Foster','Sharma','Bauer','Costa','Booker','Levin','Pierce'];
+  const cities = [
+    ['Austin','TX'],['Miami','FL'],['Chicago','IL'],['New York','NY'],['Seattle','WA'],['Houston','TX'],['Phoenix','AZ'],['Portland','OR'],
+    ['Denver','CO'],['Atlanta','GA'],['Boston','MA'],['Dallas','TX'],['San Diego','CA'],['Nashville','TN'],['Columbus','OH'],['Minneapolis','MN'],
+    ['Charlotte','NC'],['Las Vegas','NV'],['Sacramento','CA'],['Kansas City','MO'],['Indianapolis','IN'],['Pittsburgh','PA'],['Tampa','FL'],['Salt Lake City','UT'],
+    ['Raleigh','NC'],['Orlando','FL'],['Cleveland','OH'],['Cincinnati','OH'],['St. Louis','MO'],['Albuquerque','NM']
   ];
+  const vehicles = ['Sedan','SUV','Truck','Van','Motorcycle','Electric Vehicle','Bicycle','Other'];
+  const statuses = ['Active','Active','Active','Active','Active','Active','Pending','Pending','Inactive']; // weighted
+
+  const areaCodes = {TX:'512',FL:'305',IL:'312',NY:'212',WA:'206',AZ:'602',OR:'503',CO:'303',GA:'404',MA:'617',CA:'213',TN:'615',OH:'614',MN:'612',NC:'704',NV:'702',MO:'816',IN:'317',PA:'412',UT:'801',NM:'505'};
+
+  const pick = arr => arr[Math.floor(Math.random()*arr.length)];
+  const seed = (() => { let s = 12345; return () => (s = (s * 9301 + 49297) % 233280) / 233280; })();
+  const seedPick = arr => arr[Math.floor(seed()*arr.length)];
+
+  const courseIds = db.courses.map(c=>c.id);
+  const contractors = [];
+  const usedNames = new Set();
+
+  for (let i = 0; i < 50; i++) {
+    let first, last, fullName;
+    do {
+      first = seedPick(firstNames);
+      last  = seedPick(lastNames);
+      fullName = `${first} ${last}`;
+    } while (usedNames.has(fullName));
+    usedNames.add(fullName);
+
+    const [city, state] = seedPick(cities);
+    const veh = seedPick(vehicles);
+    const status = seedPick(statuses);
+    const area = areaCodes[state] || '555';
+    const phone = `(${area}) 555-${String(100 + Math.floor(seed()*900)).padStart(4,'0')}`;
+    const email = `${first.toLowerCase()}.${last.toLowerCase()}@gigsafe.example`;
+
+    // Random course selection: 2–8 invited, with 0–all completed
+    const invCount = 2 + Math.floor(seed()*7);
+    const shuffled = [...courseIds].sort(() => seed() - 0.5);
+    const inv = shuffled.slice(0, invCount);
+
+    let doneCount;
+    if (status === 'Inactive')      doneCount = Math.floor(seed() * (inv.length * 0.4));
+    else if (status === 'Pending')  doneCount = Math.floor(seed() * (inv.length * 0.3));
+    else                            doneCount = Math.floor(seed() * (inv.length + 1));
+    const done = inv.slice(0, doneCount);
+
+    contractors.push({
+      id: 'ct' + (i+1), name: fullName, loc: `${city}, ${state}`, veh, status,
+      email, phone, inv, done
+    });
+  }
+
+  db.contractors = contractors;
   saveDB();
 }
 
